@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MY APP</title>
+</head>
+<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+
+<body>
+
+
+    <!--  SINGLE FILE -->
+
+
+    <div class="bg-gray-800 min-h-screen flex flex-col justify-center">
+        <div class="flex justify-center">
+            <div class="w-full max-w-sm">
+                <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-5" action="http:localhost:5000/uploadfile"
+                    enctype="multipart/form-data" id="uploadForm" method="POST">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                            Archivo
+                        </label>
+                        <input type="file" name="myFile" />
+                    </div>
+                    <input type="submit" value="Upload a file"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" />
+                </form>
+                <span id="status"
+                    class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"></span>
+            </div>
+
+        </div>
+        <div class="flex justify-center">
+
+                <div class="max-w-sm rounded overflow-hidden shadow-lg ml-3 bg-white m-3">
+                    <div id="video"></div>
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2">Video Originial</div>
+                        <p class="text-gray-700 text-base">
+                            60 fps
+                        </p>
+                        <p class="text-gray-700 text-base">
+                            630 frames
+                        </p>
+                        <p class="text-gray-700 text-base">
+                            Sin efectos
+                        </p>
+                    </div>
+                    <div class="px-6 py-4">
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#natural</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#60fps</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#code</span>
+                    </div>
+                </div>
+
+
+                <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white m-3">
+                    <div id="video2"></div>
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2">The Coldest Sunset</div>
+                        <p class="text-gray-700 text-base">
+                            60 fps
+                        </p>
+                        <p class="text-gray-700 text-base">
+                            630 frames
+                        </p>
+                        <p class="text-gray-700 text-base">
+                            Escala de grises
+                        </p>
+                    </div>
+                    <div class="px-6 py-4">
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#nodejs4ever</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#coder</span>
+                        <span
+                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#cluster</span>
+                    </div>
+                </div>
+        </div>
+
+
+
+    </div>
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+        const aplicar = (nombre) =>{
+            setTimeout((nombre) => {
+                console.log(nombre)
+            }, 2000);
+        }
+        
+        const existe = (url) =>{
+            $('<video src="'+ url +'">').load(function() {
+                return true;
+            }).bind('error', function() {
+                return false;
+            });
+        }
+
+        $('#uploadForm').submit(function () {
+            $("#status").empty().text("File is uploading...");
+            $(this).ajaxSubmit({
+
+                error: function (xhr) {
+                    status('Error: ' + xhr.status);
+                },
+
+                success: function (response) {
+                    let noEsta= true
+
+
+                    //while(noEsta)
+                    
+                    
+                            // existe
+                            console.log("ya llego")
+                            $("#status").empty().text("montando...");
+                            $('#video').html(`<video src="./uploads/${response}"autoplay controls class="w-full"></video>`)
+                            $('#video2').html(`<video src="./final/test.mp4"autoplay controls class="w-full"></video>`)
+                            noEsta= false
+                      
+                        // no existe
+                            aplicar(response)
+                            existe("./test.mp4")
+
+                        
+                    
+                        
+                   
+                        
+                   
+                    
+                }
+            });
+            //Very important line, it disable the page refresh.
+            return false;
+        });
+    });
+</script>
+
+</html>
